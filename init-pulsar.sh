@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# Apache Pulsar cluster initialization
+# script should be run only once at any cluster node
 set -ex
 
 # apply configuration from environment
@@ -17,4 +19,5 @@ if [[ ! -f /pulsar_data/.init_done ]]; then
   touch /pulsar_data/.init_done
 fi
 
+# run broker node
 exec /pulsar/bin/pulsar broker

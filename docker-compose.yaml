@@ -1,7 +1,7 @@
 version: "2.2"
 
 services:
-  # Apache Zookeeper instance
+  # Apache Zookeeper node
   zookeeper:
     container_name: zookeeper
     hostname: zookeeper
@@ -12,8 +12,7 @@ services:
     environment:
       - ZOO_MY_ID=1
 
-  # Apache BookKeeper instance
-  # apache/bookkeeper:4.9.2
+  # Apache BookKeeper bookie node
   bookie:
     container_name: bookie
     hostname: bookie
@@ -36,9 +35,7 @@ services:
       - BK_useHostNameAsBookieID=true
       - BK_useShortHostName=true
 
-  # Apache Pulsar cluster
-  # apachepulsar/pulsar-all:2.5.1
-  # apachepulsar/pulsar-dashboard:2.5.1
+  # Apache Pulsar broker node
   pulsar:
     container_name: pulsar
     hostname: pulsar
@@ -56,16 +53,17 @@ services:
       - /bin/bash
       - /init-pulsar.sh
     environment:
-      # initialization settings
+      # cluster initialization settings
       - PULSAR_BROKER_CONF=/pulsar_data/broker.conf
       - PULSAR_CONFIG_webServiceEndpoint=http://pulsar:8081
       - PULSAR_CONFIG_brokerServiceEndpoint=pulsar://pulsar:6650
       # pulsar settings
+      # localhost is used for accessing cluster (single node cluster) from host machine
       - PULSAR_PREFIX_advertisedAddress=localhost
       - PULSAR_PREFIX_clusterName=pulsar
       - PULSAR_PREFIX_zookeeperServers=zookeeper:2181
       - PULSAR_PREFIX_configurationStoreServers=zookeeper:2181
-      # single bookie configuration
+      # bookie configuration (single node quorum/ack settings)
       - PULSAR_PREFIX_managedLedgerDefaultEnsembleSize=1
       - PULSAR_PREFIX_managedLedgerDefaultWriteQuorum=1
       - PULSAR_PREFIX_managedLedgerDefaultAckQuorum=1
