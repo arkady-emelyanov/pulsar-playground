@@ -27,12 +27,15 @@ func main() {
 	}
 
 	defer consumer.Close()
-	// receive message
-	msg, err := consumer.Receive(context.Background())
-	if err != nil {
-		panic(err)
-	}
+	// receive message loop
+	fmt.Println("Starting consumer loop...")
+	for {
+		msg, err := consumer.Receive(context.Background())
+		if err != nil {
+			panic(err)
+		}
 
-	consumer.Ack(msg)
-	fmt.Printf("Received message: %#v -- content: '%s'\n", msg.ID(), string(msg.Payload()))
+		consumer.Ack(msg)
+		fmt.Printf("Received message: %#v -- content: '%s'\n", msg.ID(), string(msg.Payload()))
+	}
 }
