@@ -18,9 +18,10 @@ func main() {
 	defer client.Close()
 	// create consumer
 	consumer, err := client.Subscribe(pulsar.ConsumerOptions{
-		Topic:            "test-topic",
-		SubscriptionName: "sample-consumer",
-		Type:             pulsar.Exclusive,
+		Topic:                       "test-topic",
+		SubscriptionName:            "test-subscription",
+		Type:                        pulsar.Shared,
+		SubscriptionInitialPosition: pulsar.SubscriptionPositionEarliest,
 	})
 	if err != nil {
 		panic(err)
