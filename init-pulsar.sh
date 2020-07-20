@@ -20,4 +20,5 @@ if [[ ! -f /pulsar_data/.init_done ]]; then
 fi
 
 # run broker node
+export PULSAR_BROKER_CONF=${PULSAR_BROKER_CONF}
 exec /pulsar/bin/pulsar broker

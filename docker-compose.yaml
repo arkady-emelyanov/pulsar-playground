@@ -21,7 +21,7 @@ services:
       - ./storage/bookie:/data/bookkeeper
       - ./init-bookie.sh:/init-bookie.sh
     ports:
-      - "8080:8080"
+      - "8081:8081"
     depends_on:
       - zookeeper
     entrypoint:
@@ -31,7 +31,7 @@ services:
       - BK_zkServers=zookeeper:2181
       - BK_zkLedgersRootPath=/ledgers
       - BK_httpServerEnabled=true
-      - BK_httpServerPort=8080
+      - BK_httpServerPort=8081
       - BK_useHostNameAsBookieID=true
       - BK_useShortHostName=true
 
@@ -42,7 +42,7 @@ services:
     image: apachepulsar/pulsar-all:2.6.0
     ports:
       - "6650:6650"
-      - "8081:8081"
+      - "8080:8080"
     depends_on:
       - zookeeper
       - bookie
@@ -55,11 +55,9 @@ services:
     environment:
       # cluster initialization settings
       - PULSAR_BROKER_CONF=/pulsar_data/broker.conf
-      - PULSAR_CONFIG_webServiceEndpoint=http://pulsar:8081
-      - PULSAR_CONFIG_brokerServiceEndpoint=pulsar://pulsar:6650
-      # pulsar settings
-      # localhost is used for accessing cluster (single node cluster) from host machine
-      - PULSAR_PREFIX_advertisedAddress=localhost
+      # ports
+      - PULSAR_PREFIX_webServicePort=8080
+      - PULSAR_PREFIX_brokerServicePort=6650
       - PULSAR_PREFIX_clusterName=pulsar
       - PULSAR_PREFIX_zookeeperServers=zookeeper:2181
       - PULSAR_PREFIX_configurationStoreServers=zookeeper:2181
@@ -67,3 +65,5 @@ services:
       - PULSAR_PREFIX_managedLedgerDefaultEnsembleSize=1
       - PULSAR_PREFIX_managedLedgerDefaultWriteQuorum=1
       - PULSAR_PREFIX_managedLedgerDefaultAckQuorum=1
+      # CLI configuration
+      - PULSAR_PREFIX_webServiceUrl=http://localhost:8080
