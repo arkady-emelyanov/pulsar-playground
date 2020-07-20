@@ -1,11 +1,11 @@
-version: "2.2"
+version: "2"
 
 services:
   # Apache Zookeeper node
   zookeeper:
     container_name: zookeeper
     hostname: zookeeper
-    image: zookeeper:3.5.7
+    image: zookeeper:3.6.1
     volumes:
       - ./storage/zk/data:/data
       - ./storage/zk/trxn:/datalog
@@ -16,7 +16,7 @@ services:
   bookie:
     container_name: bookie
     hostname: bookie
-    image: apache/bookkeeper:4.9.2
+    image: apache/bookkeeper:4.11.0
     volumes:
       - ./storage/bookie:/data/bookkeeper
       - ./init-bookie.sh:/init-bookie.sh
@@ -39,7 +39,7 @@ services:
   pulsar:
     container_name: pulsar
     hostname: pulsar
-    image: apachepulsar/pulsar-all:2.5.1
+    image: apachepulsar/pulsar-all:2.6.0
     ports:
       - "6650:6650"
       - "8081:8081"
