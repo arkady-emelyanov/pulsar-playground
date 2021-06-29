@@ -16,7 +16,7 @@ services:
   bookie:
     container_name: bookie
     hostname: bookie
-    image: apache/bookkeeper:4.11.0
+    image: apache/bookkeeper:4.14.1
     volumes:
       - ./storage/bookie:/data/bookkeeper
       - ./init-bookie.sh:/init-bookie.sh
@@ -39,7 +39,7 @@ services:
   pulsar:
     container_name: pulsar
     hostname: pulsar
-    image: apachepulsar/pulsar-all:2.6.0
+    image: apachepulsar/pulsar-all:2.8.0
     ports:
       - "6650:6650"
       - "8080:8080"
@@ -59,6 +59,7 @@ services:
       - PULSAR_PREFIX_webServicePort=8080
       - PULSAR_PREFIX_brokerServicePort=6650
       - PULSAR_PREFIX_clusterName=pulsar
+      - PULSAR_PREFIX_advertisedAddress=127.0.0.1
       - PULSAR_PREFIX_zookeeperServers=zookeeper:2181
       - PULSAR_PREFIX_configurationStoreServers=zookeeper:2181
       # bookie configuration (single node quorum/ack settings)
